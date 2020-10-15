@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+<meta charset="utf-8">
+<title>Tinyurl</title>
+{% load static %}
+<link rel="stylesheet" href="{% static 'conversion/css/style.css' %}">
+</head>
+
+<body>
+    <div class="content">
+        <form class="form sign-in" action="#" >
+            <h2>Try it</h2>
+            <label for="long2short">Long URL</label>
+            <input type="text" name="long_url"/>
+            <input type="submit" class="submit" value="Generate" id="generate">
+            <label for="short2long">Tiny URL</label>
+            <input type="text" name="tiny_url" id="tiny_url"/>
+        </form>
+        <div class="sub-cont">
+            <div class="img">
+                <div class="img__text m--up">
+                    <h2>Don’t have a TinyURL?</h2>
+                    <p>Come and generate a TinyURL</p>
+                </div>
+                <div class="img__text m--in">
+                    <h2>Whoopee!</h2>
+                    <p>Go ahead and use your TinyURL！</p>
+                </div>
+                <div class="img__btn">
+                    <span class="m--up">History</span>
+                    <span class="m--in">Return</span>
+                </div>
+            </div>
+            <div class="form sign-up">
+                <h2>History</h2>
+            </div>
+        </div>
+    </div>
+
+    <script src="{% static 'conversion/js/script.js' %}"></script>
+    <script type="text/javascript" src="{% static 'conversion/js/jquery-1.8.3.js' %}"></script>
+    <script type="text/javascript">
+        $('#generate').on('click', function (){
+            var url = $("input[name='long_url']").val();
+            var data = {
+                "url": url,
+            };
+
+            $.ajax({
+                type: "POST",
+                dataType: "json",
+                url: "http://192.168.33.11:8080/tinyurl/lts/",
+                data: JSON.stringify(data),
+                success: function (result){
+                    $('#tiny_url').val(result.url)
+                },
+                error: function (result){
+                    console.log(result);
+                    {
+                        alert(result)
+                    }
+                },
+            });
+        })
+    </script>
+</body>
+
+</html>
